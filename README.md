@@ -8,6 +8,9 @@ Task Manager is a web application built using Node.js and Express, originally cr
 Technologies Used:
 
 Node.js: A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
+
 Express: A popular web framework for Node.js that simplifies the development of RESTful APIs.
+
 MongoDB: A popular NoSQL database used for storing task data.
+
 Mongoose: A MongoDB object modeling library that provides a simple and intuitive way to interact with MongoDB in Node.js.

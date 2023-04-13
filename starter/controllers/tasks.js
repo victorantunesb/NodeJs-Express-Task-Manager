@@ -6,8 +6,7 @@ const getAllTasks = async (req,res)=>{
        res.status(200).json({ tasks })
     }
     catch (err) {
-        res.status(500).json({ msg:err.message });
-        console.log(err.message)
+        res.status(500).json({ msg:err });
     }
     
 };
@@ -18,42 +17,54 @@ const createTask = async (req,res)=>{
     res.status(201).json({ task })
     }
     catch (err) {
-        res.status(500).json({ msg:err.message });
-        console.log(err.message)
+        res.status(500).json({ msg:err });
     }
     
 };
 
 const getTask = async (req,res)=>{
-    const id = req.params.id
+    const { id:taskID } = req.params
     try {
-        const task = await Task.findById(id)
+        const task = await Task.findById(taskID);
+        if(!task){
+            return res.status(404).json({ msg: `No task with id : ${taskID}` })
+        }
         res.status(201).json({ task });
     }
     catch (err) {
-        res.status(500).json({ msg:err.message });
-        console.log(err.message)
+        res.status(500).json({ msg:err });
+    }
+};
+
+const deleteTask = async (req,res)=>{
+    try {
+        const { id:taskId } = req.params;
+        const task = await Task.findOneAndDelete({ _id:taskId });
+        if(!task){
+            return res.status(404).json({ msg: `No task with id : ${taskID}`});
+        }
+        else {res.status(200).json({ task })}
+    }
+    catch (err) {
+        res.status(500).json({ msg:err });
     }
 };
 
 const updateTask = async (req,res)=>{
-    const id = req.params.id;
-    const name = req.body.name;
-    const completed = req.body.completed;
+    const { id:taskId } = req.params;
     try {
-        const updateTask = await Task.findByIdAndUpdate(id,{ name:name , completed:completed })
-        const task = await Task.findById(id)
-        res.status(201).json({ task })
+        const task = await Task.findByIdAndUpdate({ _id:taskId },req.body, {
+            new: true,
+            runValidators: true
+        })
+        if(!task) {
+            res.status(404).json({msg: `No task with id : ${ taskId }`})
+        }
+        else {res.status(200).json({ task })}
     }
     catch (err) {
         res.status(500).json({ msg:err.message })
-        console.log(err.message)
     }
 }
-
-const deleteTask = (req,res)=>{
-    res.send('Delete Task')
-}
-
 
 module.exports = { getAllTasks , createTask , getTask , updateTask , deleteTask };

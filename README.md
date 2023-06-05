@@ -1,4 +1,4 @@
-# node-js-express-3-task-manager
+# node-js-express-task-manager
 
 Task Master is a Node.js and Express project for a task manager app, created by John Smilga, with CRUD functionality for managing tasks, designed for learning and studying purposes.
 
